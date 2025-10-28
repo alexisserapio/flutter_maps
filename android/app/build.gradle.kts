@@ -1,13 +1,25 @@
-// android/app/build.gradle
+// android/app/build.gradle.kts (Kotlin Script)
 
-def dartEnvironmentVariables = []
-if (project.hasProperty('dart-defines')) {
-    dartEnvironmentVariables = project.property('dart-defines')
+import java.util.Base64
+
+// 1. CAPTURA DE VARIABLES DE ENTORNO (KOTLIN)
+val dartEnvironmentVariables = if (project.hasProperty("dart-defines")) {
+    project.property("dart-defines")
+        .toString()
         .split(',')
-        .collectEntries { entry ->
-            def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
-            [(pair.first()): pair.last()]
+        .mapNotNull {
+            val decodedBytes = Base64.getDecoder().decode(it)
+            val decodedString = String(decodedBytes, Charsets.UTF_8)
+            val parts = decodedString.split('=', limit = 2)
+            if (parts.size == 2) {
+                parts[0] to parts[1]
+            } else {
+                null
+            }
         }
+        .toMap()
+} else {
+    mapOf<String, String>()
 }
 
 plugins {
@@ -40,11 +52,12 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        def apiKey = dartEnvironmentVariables.API_KEY ?: "DEFAULT_API_KEY" // Con fallback opcional
-        manifestPlaceholders = [
-            'MapsApiKey': apiKey, // Este es el nombre que usarás en AndroidManifest.xml
-            // Puedes agregar otros placeholders aquí
-        ]
+
+        // 2. USO DE VARIABLES (KOTLIN)
+        val apiKey = dartEnvironmentVariables["API_KEY"] ?: "DEFAULT_API_KEY"
+        
+        manifestPlaceholders["MapsApiKey"] = apiKey 
+        // Nota: En Kotlin Script, 'manifestPlaceholders' es un mapa y se usa '[]' para asignar.
     }
 
     buildTypes {
