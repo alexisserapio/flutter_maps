@@ -1,3 +1,15 @@
+// android/app/build.gradle
+
+def dartEnvironmentVariables = []
+if (project.hasProperty('dart-defines')) {
+    dartEnvironmentVariables = project.property('dart-defines')
+        .split(',')
+        .collectEntries { entry ->
+            def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+            [(pair.first()): pair.last()]
+        }
+}
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -28,6 +40,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        def apiKey = dartEnvironmentVariables.API_KEY ?: "DEFAULT_API_KEY" // Con fallback opcional
+        manifestPlaceholders = [
+            'MapsApiKey': apiKey, // Este es el nombre que usarás en AndroidManifest.xml
+            // Puedes agregar otros placeholders aquí
+        ]
     }
 
     buildTypes {
