@@ -1,0 +1,28 @@
+{
+  "@@locale": "es",
+  "appTitle": "FlutterMaps",
+  "@appTitle": {
+    "description": "Consumo de GoogleMapsAPI en Flutter!"
+  },
+  "markerID": "Monumento a la Revolución",
+  "@markerID": {
+    "description": "Descipcion del marker default"
+  },
+  "alertDialogTitle": "Añade un titulo para el marcador en el mapa",
+  "@alertDialogTitle": {
+    "description": "Añade un titulo para el marcador en el mapa"
+  },
+  "alertDialogHint": "Casa de ...",
+  "@alertDialogHint": {
+    "description": "Casa de ..."
+  },
+  "alertDialogCancel": "Cancelar",
+  "@alertDialogCancel": {
+    "description": "Cancelar"
+  }
+  ,
+  "alertDialogSave": "Guardar",
+  "@alertDialogSave": {
+    "description": "Guardar"
+  }
+}

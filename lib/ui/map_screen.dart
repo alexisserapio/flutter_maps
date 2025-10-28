@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_maps/l10n/app_localizations.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -18,7 +19,7 @@ class _MapScreenState extends State<MapScreen> {
 
   final Set<Marker> _markers = {
     Marker(
-      markerId: MarkerId("Monumento a la Revolución"),
+      markerId: MarkerId("MonumentoRevolucion"),
       position: LatLng(19.436522766743465, -99.15424849570454),
       infoWindow: InfoWindow(title: "Monumento a la Revolución"),
     ),
@@ -26,16 +27,43 @@ class _MapScreenState extends State<MapScreen> {
 
   void addMarker(LatLng latLong) async {
     TextEditingController _textController = TextEditingController();
-     
-    showDialog<String>(context: context, builder: (BuildContext context){
-      return AlertDialog(
-        title: Text("Añade un titulo para el marcador en el mapa"),
-        content: TextField(
-          controller: _textController,
-          decoration: InputDecoration(hint: Text("Casa de ...")),
-        ),
-      )
-    })
+
+    String? title = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.alertDialogTitle),
+          content: TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.alertDialogHint,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(null),
+              child: Text(AppLocalizations.of(context)!.alertDialogCancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(_textController.text),
+              child: Text(AppLocalizations.of(context)!.alertDialogSave),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (title != null && title.isNotEmpty) {
+      setState(() {
+        _markers.add(
+          Marker(
+            markerId: MarkerId(latLong.toString()),
+            position: latLong,
+            infoWindow: InfoWindow(title: title),
+          ),
+        );
+      });
+    }
   }
 
   @override

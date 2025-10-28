@@ -1,0 +1,27 @@
+{
+  "@@locale": "en",
+  "appTitle": "FlutterMaps",
+  "@appTitle": {
+    "description": "Consumption of GoogleMapsAPI in Flutter!"
+  },
+  "markerID": "Monument to the Revolution",
+  "@markerID": {
+    "description": "Default marker description"
+  },
+  "alertDialogTitle": "Add a title for the marker on the map",
+  "@alertDialogTitle": {
+    "description": "Add a title for the marker on the map"
+  },
+  "alertDialogHint": "House of ...",
+  "@alertDialogTitle": {
+    "description": "House of ..."
+  },
+  "alertDialogCancel": "Cancel",
+  "@alertDialogTitle": {
+    "description": "Cancel"
+  },
+  "alertDialogSave": "Save",
+  "@alertDialogSave": {
+    "description": "Save"
+  }
+}
